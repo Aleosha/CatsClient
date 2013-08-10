@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Cat API Test</title>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script>
+$(document).ready(
+	function () {
+		$("#addCatForm").submit(
+			function () {
+				$.post("/cats/add",
+						$("#addCatForm").serialize(),
+						function (data) {
+							payload = JSON.parse(data.payload);
+							alert("Done, the ID of the new cat is " + payload.id);
+							$(".catId").val(payload.id);
+							
+						},
+						"JSON"
+				);
+				return false;
+			}
+		);
+		
+		$("#updateCatForm").submit(
+				function () {
+					$.post("/cats/update/" + $("#updateCatForm input:first").val(),
+							$("#updateCatForm").serialize(),
+							function (data) {
+								payload = JSON.parse(data.payload);
+								alert("Done, the cat was updated");	
+							},
+							"JSON"
+					);
+					return false;
+				}
+			);
+		
+		$("#getCatByIdForm").submit(
+				function () {
+					$.post("/cats/get/" + $("#getCatByIdForm input:first").val(),
+							{},
+							function (data) {
+								
+								$("#catData").text(data.payload);
+							},
+							"JSON"
+					);
+					return false;
+				}
+		);
+		
+		$("#getCatsInAreaForm").submit(
+				function () {
+					$.post("/cats/get/",
+							$("#getCatsInAreaForm").serialize(),
+							function (data) {
+								
+								$("#catsInAreaData").text(data.payload);
+							},
+							"JSON"
+					);
+					return false;
+				}
+		);
+		
+		$("#deleteCatForm").submit(
+				function () {
+					$.post("/cats/delete/" + $("#deleteCatForm input:first").val(),
+							{},
+							function (data) {
+							},
+							"JSON"
+					);
+					return false;
+				}
+		);
+	}
+);
+</script>
+</head>
+<body>
+	<div>
+		<a href = "/catTest.html">Cat test</a>
+		<a href = "/userTest.html">User test</a>
+		<a href = "/feederTest.html">Feeder test</a>
+		<a href = "/confirmationTest.html">Confirmation test</a>
+		<a href = "/topTest.html">Top test</a>
+	</div>
+	<div>
+		<H1>Add cat</H1>
+		<form id = "addCatForm" action = "javascript:void(0);" method = "POST">
+			Nickname:<input type = "text" name = "nickname" value = "Mitzy" />
+			Location X:<input type = "text" name = "location-x" value = "200.21" />
+			Location Y:<input type = "text" name = "location-y" value = "100.45" />
+			<input class = 'submitButton' type ="submit" value = "Add" />
+		</form>
+	</div>
+	<div>
+		<H1>Get cat by id</H1>
+		<form id = "getCatByIdForm" action = "javascript:void(0);" method = "POST">
+			Id:<input class = 'catId' type = "text" name = "id" value = "" />
+			<input class = 'submitButton' type ="submit" value = "Get" />
+			<div id = "catData"></div>
+		</form>
+	</div>
+	<div>
+		<H1>Update cat</H1>
+		<form id = "updateCatForm" action = "javascript:void(0);" method = "POST">
+			Id:<input class = 'catId' type = "text" name = "id" value = "" />
+			Nickname:<input type = "text" name = "nickname" value = "Mitzy 2" />
+			Location X:<input type = "text" name = "location-x" value = "210.21" />
+			Location Y:<input type = "text" name = "location-y" value = "120.45" />
+			<input class = 'submitButton' type ="submit" value = "Update" />
+		</form>
+	</div>
+	<div>
+		<H1>Cats in area</H1>
+		<form id = "getCatsInAreaForm" action = "javascript:void(0);" method = "POST">
+			
+			Location X:<input type = "text" name = "location-x" value = "200.10" />
+			Location Y:<input type = "text" name = "location-y" value = "100.50" />
+			<input class = 'submitButton' type ="submit" value = "Get" />
+			<div id = "catsInAreaData"></div>
+		</form>
+	</div>
+	<div>
+		<H1>Delete cat</H1>
+		<form id = "deleteCatForm" action = "javascript:void(0);" method = "POST">
+			Id:<input class = 'catId' type = "text" name = "id" value = "" />
+			<input class = 'submitButton' type ="submit" value = "Delete" />
+		</form>
+	</div>
+</body>
+</html>

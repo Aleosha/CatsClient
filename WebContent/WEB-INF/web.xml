@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<web-app xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns="http://java.sun.com/xml/ns/javaee" xmlns:web="http://java.sun.com/xml/ns/javaee/web-app_2_5.xsd" xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-app_3_0.xsd" version="2.5">
+  <display-name>Cats</display-name>
+  <welcome-file-list>
+    <welcome-file>index.html</welcome-file>
+    <welcome-file>index.htm</welcome-file>
+    <welcome-file>index.jsp</welcome-file>
+    <welcome-file>default.html</welcome-file>
+    <welcome-file>default.htm</welcome-file>
+    <welcome-file>default.jsp</welcome-file>
+  </welcome-file-list>
+  	<listener>
+      <listener-class>mta.cats.listeners.SchemaInitializationListener</listener-class>
+	</listener>
+	  <servlet>
+        <servlet-name>CatsService</servlet-name>
+        <servlet-class>mta.cats.service.CatsService</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>CatsService</servlet-name>
+        <url-pattern>/cats/*</url-pattern>
+    </servlet-mapping>
+    
+    <servlet>
+        <servlet-name>CatConfirmationsService</servlet-name>
+        <servlet-class>mta.cats.service.CatConfirmationsService</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>CatConfirmationsService</servlet-name>
+        <url-pattern>/catconfirmations/*</url-pattern>
+    </servlet-mapping>
+    
+     <servlet>
+        <servlet-name>FeedersService</servlet-name>
+        <servlet-class>mta.cats.service.FeedersService</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>FeedersService</servlet-name>
+        <url-pattern>/feeders/*</url-pattern>
+    </servlet-mapping>
+    
+         <servlet>
+        <servlet-name>TopService</servlet-name>
+        <servlet-class>mta.cats.service.TopService</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>TopService</servlet-name>
+        <url-pattern>/top/*</url-pattern>
+    </servlet-mapping>
+    
+     <servlet>
+        <servlet-name>UsersService</servlet-name>
+        <servlet-class>mta.cats.service.UsersService</servlet-class>
+    </servlet>
+
+    <servlet-mapping>
+        <servlet-name>UsersService</servlet-name>
+        <url-pattern>/users/*</url-pattern>
+    </servlet-mapping>
+    
+    
+</web-app>

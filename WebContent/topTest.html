@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Top Feeder API Test</title>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script>
+$(document).ready(
+	function () {
+		
+		$("#getTopFeederByIdForm").submit(
+				function () {
+	
+					$.post("/top/feeders",
+							{},
+							function (data) {
+								
+								$("#topFeederData").text(data.payload);
+							},
+							"JSON"
+					);
+					return false;
+				}
+		);
+	}
+);
+</script>
+</head>
+<body>
+	<div>
+		<a href = "/catTest.html">Cat test</a>
+		<a href = "/userTest.html">User test</a>
+		<a href = "/feederTest.html">Feeder test</a>
+		<a href = "/confirmationTest.html">Confirmation test</a>
+		<a href = "/topTest.html">Top test</a>
+	</div>
+
+	<div>
+		<H1>Get top feeders</H1>
+		<form id = "getTopFeederByIdForm" action = "javascript:void(0);" method = "POST">
+			<input class = 'submitButton' type ="submit" value = "Get" />
+			<div id = "topFeederData"></div>
+		</form>
+	</div>
+
+</body>
+</html>

@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>user API Test</title>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script>
+$(document).ready(
+	function () {
+		$("#adduserForm").submit(
+			function () {
+				$.post("/users/add",
+						$("#adduserForm").serialize(),
+						function (data) {
+							payload = JSON.parse(data.payload);
+							alert("Done, the ID of the new user is " + payload.id);
+							$(".userId").val(payload.id);
+							
+						},
+						"JSON"
+				);
+				return false;
+			}
+		);
+		
+		$("#updateUserForm").submit(
+				function () {
+					$.post("/users/update/" + $("#updateUserForm input:first").val(),
+							$("#updateUserForm").serialize(),
+							function (data) {
+								payload = JSON.parse(data.payload);
+								alert("Done, the user was updated");	
+							},
+							"JSON"
+					);
+					return false;
+				}
+			);
+		
+		$("#getuserByIdForm").submit(
+				function () {
+					$.post("/users/get/" + $("#getuserByIdForm input:first").val(),
+							{},
+							function (data) {
+								
+								$("#userData").text(data.payload);
+							},
+							"JSON"
+					);
+					return false;
+				}
+		);
+		
+		$("#deleteuserForm").submit(
+				function () {
+					$.post("/users/delete/" + $("#deleteuserForm input:first").val(),
+							{},
+							function (data) {
+							},
+							"JSON"
+					);
+					return false;
+				}
+		);
+	}
+);
+</script>
+</head>
+<body>
+	<div>
+		<a href = "/catTest.html">Cat test</a>
+		<a href = "/userTest.html">User test</a>
+		<a href = "/feederTest.html">Feeder test</a>
+		<a href = "/confirmationTest.html">Confirmation test</a>
+		<a href = "/topTest.html">Top test</a>
+	</div>
+	<div>
+		<H1>Add user</H1>
+		<form id = "adduserForm" action = "javascript:void(0);" method = "POST">
+			Username:<input type = "text" name = "username" value = "Eran" />
+			Password:<input type = "password" name = "password" value = "abcd1234" />
+			Location X:<input type = "text" name = "location-x" value = "100.21" />
+			Location Y:<input type = "text" name = "location-y" value = "200.45" />
+			<input class = 'submitButton' type ="submit" value = "Add" />
+		</form>
+	</div>
+	<div>
+		<H1>Get user by id</H1>
+		<form id = "getuserByIdForm" action = "javascript:void(0);" method = "POST">
+			Id:<input class = 'userId' type = "text" name = "id" value = "" />
+			<input class = 'submitButton' type ="submit" value = "Get" />
+			<div id = "userData"></div>
+		</form>
+	</div>
+	<div>
+		<H1>Update user</H1>
+		<form id = "updateUserForm" action = "javascript:void(0);" method = "POST">
+			Id:<input class = 'userId' type = "text" name = "id" value = "" />
+			Username:<input type = "text" name = "username" value = "Alexey" />
+			Password:<input type = "password" name = "password" value = "xyz123" />
+			Location X:<input type = "text" name = "location-x" value = "210.21" />
+			Location Y:<input type = "text" name = "location-y" value = "120.45" />
+			<input class = 'submitButton' type ="submit" value = "Update" />
+		</form>
+	</div>
+	<div>
+		<H1>Delete user</H1>
+		<form id = "deleteuserForm" action = "javascript:void(0);" method = "POST">
+			Id:<input class = 'userId' type = "text" name = "id" value = "" />
+			<input class = 'submitButton' type ="submit" value = "Delete" />
+		</form>
+	</div>
+</body>
+</html>

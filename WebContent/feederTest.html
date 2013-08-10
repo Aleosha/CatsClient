@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>Cat API Test</title>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script>
+$(document).ready(
+	function () {
+		$("#addfeederForm").submit(
+			function () {
+				$.post("/feeders/add",
+						$("#addfeederForm").serialize(),
+						function (data) {
+							payload = JSON.parse(data.payload);
+							alert("Done, the ID of the new feeder is " + payload.id);
+							$(".feederId").val(payload.id);
+							
+						},
+						"JSON"
+				);
+				return false;
+			}
+		);
+		
+
+		
+		$("#getfeederByIdForm").submit(
+				function () {
+					$.post("/feeders/get/" + $("#getfeederByIdForm input:first").val(),
+							{},
+							function (data) {
+								
+								$("#feederData").text(data.payload);
+							},
+							"JSON"
+					);
+					return false;
+				}
+		);
+		
+		$("#deleteFeederForm").submit(
+				function () {
+					$.post("/feeders/delete/" + $("#deleteFeederForm input:first").val(),
+							{},
+							function (data) {
+							},
+							"JSON"
+					);
+					return false;
+				}
+		);
+	}
+);
+</script>
+</head>
+<body>
+	<div>
+		<a href = "/catTest.html">Cat test</a>
+		<a href = "/userTest.html">User test</a>
+		<a href = "/feederTest.html">Feeder test</a>
+		<a href = "/confirmationTest.html">Confirmation test</a>
+		<a href = "/topTest.html">Top test</a>
+	</div>
+	<div>
+		<H1>Add feeder</H1>
+		<form id = "addfeederForm" action = "javascript:void(0);" method = "POST">
+			Cat ID:<input type = "text" name = "catId" value = "1" />
+			User ID:<input type = "text" name = "userId" value = "1" />
+			Day of Week:<input type = "text" name = "dayOfWeek" value = "3" />
+			<input class = 'submitButton' type ="submit" value = "Add" />
+		</form>
+	</div>
+	<div>
+		<H1>Get feeder by cat</H1>
+		<form id = "getfeederByIdForm" action = "javascript:void(0);" method = "POST">
+			Id:<input class = 'feederId' type = "text" name = "id" value = "" />
+			<input class = 'submitButton' type ="submit" value = "Get" />
+			<div id = "feederData"></div>
+		</form>
+	</div>
+
+	<div>
+		<H1>Delete feeder</H1>
+		<form id = "deleteFeederForm" action = "javascript:void(0);" method = "POST">
+			Id:<input class = 'feederId' type = "text" name = "id" value = "" />
+			<input class = 'submitButton' type ="submit" value = "Delete" />
+		</form>
+	</div>
+</body>
+</html>

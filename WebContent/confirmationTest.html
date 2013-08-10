@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<title>user API Test</title>
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+<script>
+$(document).ready(
+	function () {
+		$("#addConfirmationForm").submit(
+			function () {
+				$.post("/catconfirmations/add",
+						$("#addConfirmationForm").serialize(),
+						function (data) {
+							payload = JSON.parse(data.payload);
+							alert("Done, the ID of the new confirmation is " + payload.id);
+							$(".confirmationId").val(payload.id);
+							
+						},
+						"JSON"
+				);
+				return false;
+			}
+		);
+
+		
+		$("#getconfirmationByIdForm").submit(
+				function () {
+					$.post("/catconfirmations/get/" + $("#getconfirmationByIdForm input:first").val(),
+							{},
+							function (data) {
+								
+								$("#confirmationData").text(data.payload);
+							},
+							"JSON"
+					);
+					return false;
+				}
+		);
+	}
+);
+</script>
+</head>
+<body>
+	<div>
+		<a href = "/catTest.html">Cat test</a>
+		<a href = "/userTest.html">User test</a>
+		<a href = "/feederTest.html">Feeder test</a>
+		<a href = "/confirmationTest.html">Confirmation test</a>
+		<a href = "/topTest.html">Top test</a>
+	</div>
+	<div>
+		<H1>Add confirmation</H1>
+		<form id = "addConfirmationForm" action = "javascript:void(0);" method = "POST">
+			User Id:<input type = "text" name = "userId" value = "1" />
+			Cat Id:<input type = "text" name = "catId" value = "1" />
+		
+			<input class = 'submitButton' type ="submit" value = "Add" />
+		</form>
+	</div>
+	<div>
+		<H1>Count confirmations for cat</H1>
+		<form id = "getconfirmationByIdForm" action = "javascript:void(0);" method = "POST">
+			Cat ID:<input class = 'confirmationId' type = "text" name = "id" value = "" />
+			<input class = 'submitButton' type ="submit" value = "Get" />
+			<div id = "confirmationData"></div>
+		</form>
+	</div>
+</body>
+</html>
