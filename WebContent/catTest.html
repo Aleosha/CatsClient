@@ -9,16 +9,32 @@ $(document).ready(
 	function () {
 		$("#addCatForm").submit(
 			function () {
-				$.post("/cats/add",
-						$("#addCatForm").serialize(),
-						function (data) {
-							payload = JSON.parse(data.payload);
-							alert("Done, the ID of the new cat is " + payload.id);
-							$(".catId").val(payload.id);
-							
-						},
-						"JSON"
+				var data = new FormData();
+				if ($('.file')[0]) {
+					jQuery.each($('.file')[0].files, function(i, file) {
+					    data.append('image', file);
+					});
+				}
+				$.each($(this).find("input[type='text']"), function(i, value) {
+						data.append(value.name, value.value);
+					}
 				);
+				
+				$.ajax({
+				    url: "/cats/add",
+				    data: data,
+				    cache: false,
+				    contentType: false,
+				    processData: false,
+				    type: 'POST',
+				    success: function(data){
+						payload = JSON.parse(data.payload);
+						alert("Done, the ID of the new cat is " + payload.id);
+						$(".catId").val(payload.id);
+				    }
+				}
+				);
+				
 				return false;
 			}
 		);
@@ -90,10 +106,11 @@ $(document).ready(
 	</div>
 	<div>
 		<H1>Add cat</H1>
-		<form id = "addCatForm" action = "javascript:void(0);" method = "POST">
+		<form id = "addCatForm" action = "javascript:void(0);" method = "POST" enctype="multipart/form-data">
 			Nickname:<input type = "text" name = "nickname" value = "Mitzy" />
 			Location X:<input type = "text" name = "location-x" value = "200.21" />
 			Location Y:<input type = "text" name = "location-y" value = "100.45" />
+			<!--  Image: <input class = "file" type = "file" name = "image" />  -->
 			<input class = 'submitButton' type ="submit" value = "Add" />
 		</form>
 	</div>

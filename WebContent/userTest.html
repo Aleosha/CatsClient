@@ -9,16 +9,32 @@ $(document).ready(
 	function () {
 		$("#adduserForm").submit(
 			function () {
-				$.post("/users/add",
-						$("#adduserForm").serialize(),
-						function (data) {
-							payload = JSON.parse(data.payload);
-							alert("Done, the ID of the new user is " + payload.id);
-							$(".userId").val(payload.id);
-							
-						},
-						"JSON"
+				var data = new FormData();
+				if ($('.file')[0]) {
+					jQuery.each($('.file')[0].files, function(i, file) {
+					    data.append('image', file);
+					});
+				}
+				$.each($(this).find("input[type='text']"), function(i, value) {
+					console.log(value.name, value.value);
+						data.append(value.name, value.value);
+					});
+				
+				$.ajax({
+				    url: "/users/add",
+				    data: data,
+				    cache: false,
+				    contentType: false,
+				    processData: false,
+				    type: 'POST',
+				    success: function(data){
+				    	payload = JSON.parse(data.payload);
+						alert("Done, the ID of the new user is " + payload.id);
+						$(".userId").val(payload.id);
+				    }
+				}
 				);
+				
 				return false;
 			}
 		);
@@ -78,7 +94,7 @@ $(document).ready(
 		<H1>Add user</H1>
 		<form id = "adduserForm" action = "javascript:void(0);" method = "POST">
 			Username:<input type = "text" name = "username" value = "Eran" />
-			Password:<input type = "password" name = "password" value = "abcd1234" />
+			Password:<input type = "text" name = "password" value = "abcd1234" />
 			Location X:<input type = "text" name = "location-x" value = "100.21" />
 			Location Y:<input type = "text" name = "location-y" value = "200.45" />
 			<input class = 'submitButton' type ="submit" value = "Add" />
